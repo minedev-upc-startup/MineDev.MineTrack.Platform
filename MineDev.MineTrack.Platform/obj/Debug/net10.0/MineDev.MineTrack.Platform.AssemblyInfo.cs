@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MineDev.MineTrack.Platform")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5810a62645118b8f40143cdef0341c363709605")]
 [assembly: System.Reflection.AssemblyProductAttribute("MineDev.MineTrack.Platform")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MineDev.MineTrack.Platform")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
