@@ -1,3 +1,5 @@
+// Added for Enum
+
 namespace MineDev.MineTrack.Platform.Shared.Application.Model;
 
 /// <summary>
@@ -20,11 +22,11 @@ public class Result<T>
     public string Message { get; }
     public Enum? Error { get; }
 
-    public static Result<T> Success(T value) =>
-        new(true, value, string.Empty, null);
+    // Modified Success method to match new constructor
+    public static Result<T> Success(T value) => new(true, value, string.Empty, null);
 
-    public static Result<T> Failure(Enum error, string message) =>
-        new(false, default, message, error);
+    // New Failure method using Enum? and string message
+    public static Result<T> Failure(Enum error, string message) => new(false, default, message, error);
 }
 
 /// <summary>
@@ -32,12 +34,9 @@ public class Result<T>
 /// </summary>
 public class Result : Result<object>
 {
-    private Result(bool isSuccess, string message, Enum? error)
-        : base(isSuccess, null, message, error) { }
+    private Result(bool isSuccess, string message, Enum? error) : base(isSuccess, null, message, error) { }
 
-    public static Result Success() =>
-        new(true, string.Empty, null);
+    public static Result Success() => new(true, string.Empty, null);
 
-    public new static Result Failure(Enum error, string message) =>
-        new(false, message, error);
+    public new static Result Failure(Enum error, string message) => new(false, message, error);
 }
