@@ -1,0 +1,13 @@
+## Rider / JetBrains
+.idea/
+
+## .NET build outputs
+bin/
+obj/
+
+## User secrets
+appsettings.*.local.json
+
+## OS
+.DS_Store
+Thumbs.db
