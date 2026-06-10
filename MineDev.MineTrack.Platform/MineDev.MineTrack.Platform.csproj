@@ -15,7 +15,6 @@
       <Folder Include="Controllers\" />
       <Folder Include="shared\Domain\" />
       <Folder Include="shared\Infrastructure\" />
-      <Folder Include="shared\Interfaces\" />
       <Folder Include="shared\Resources\" />
     </ItemGroup>
 
