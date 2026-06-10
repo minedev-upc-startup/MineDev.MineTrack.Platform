@@ -1,7 +1,8 @@
-using MineDev.MineTrack.Platform.Resources.Errors;
-using MineDev.MineTrack.Platform.Resources.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using MineDev.MineTrack.Platform.Shared.Resources;
+using MineDev.MineTrack.Platform.Shared.Resources.Errors;
+
 // For base ProblemDetailsFactory
 // For ErrorMessages
 // For Shared.Commons
