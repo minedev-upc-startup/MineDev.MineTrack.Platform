@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+    <resheader name="version"><value>2.0</value></resheader>
+    <resheader name="reader"><value>System.Resources.ResXResourceReader</value></resheader>
+    <resheader name="writer"><value>System.Resources.ResXResourceWriter</value></resheader>
+    <data name="InvalidCredentials" xml:space="preserve"><value>Credenciales inválidas.</value></data>
+    <data name="UsernameAlreadyExists" xml:space="preserve"><value>El nombre de usuario ya existe.</value></data>
+    <data name="UserNotFound" xml:space="preserve"><value>Usuario no encontrado.</value></data>
+    <data name="InvalidToken" xml:space="preserve"><value>Token inválido.</value></data>
+    <data name="Unauthorized" xml:space="preserve"><value>No autorizado.</value></data>
+</root>
