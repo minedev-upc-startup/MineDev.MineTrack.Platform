@@ -13,6 +13,10 @@
 
     <ItemGroup>
       <Folder Include="Controllers\" />
+      <Folder Include="Shared\Application\Internal\EventHandlers\" />
+      <Folder Include="Shared\Domain\" />
+      <Folder Include="Shared\Infrastructure\" />
+      <Folder Include="Shared\Interfaces\" />
       <Folder Include="shared\Domain\" />
       <Folder Include="shared\Infrastructure\" />
       <Folder Include="shared\Resources\" />
