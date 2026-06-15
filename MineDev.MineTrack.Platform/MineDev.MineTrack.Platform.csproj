@@ -4,23 +4,25 @@
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>false</InvariantGlobalization>
+        <LangVersion>14.0</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Cortex.Mediator" Version="3.1.2" />
-        <PackageReference Include="EFCore.NamingConventions" Version="10.0.1" />
-        <PackageReference Include="Humanizer" Version="3.0.10" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Controllers\" />
-      <Folder Include="Shared\Application\Internal\EventHandlers\" />
-      <Folder Include="Shared\Domain\" />
-      <Folder Include="Shared\Interfaces\" />
-      <Folder Include="shared\Domain\" />
-      <Folder Include="shared\Resources\" />
+        <!-- Entity Framework Core -->
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.8"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.8"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.8">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <!-- MySQL -->
+        <PackageReference Include="MySql.EntityFrameworkCore" Version="10.0.7"/>
+        <!-- Naming convention -->
+        <PackageReference Include="Humanizer" Version="3.0.10"/>
+        <!-- Swagger -->
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.1.7"/>
     </ItemGroup>
 
 </Project>

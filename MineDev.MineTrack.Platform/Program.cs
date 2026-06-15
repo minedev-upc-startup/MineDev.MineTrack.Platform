@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using MineDev.MineTrack.Platform.Shared.Domain.Repositories;
 using MineDev.MineTrack.Platform.Shared.Infrastructure.Interfaces.AspNetCore.Configuration;
-using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
-using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EFC.Repositories;
+using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
+using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using MineDev.MineTrack.Platform.Shared.Resources;
 
 var builder = WebApplication.CreateBuilder(args);
