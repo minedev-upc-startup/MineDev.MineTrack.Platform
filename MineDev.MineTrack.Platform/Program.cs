@@ -3,6 +3,12 @@ using MineDev.MineTrack.Platform.Shared.Domain.Repositories;
 using MineDev.MineTrack.Platform.Shared.Infrastructure.Interfaces.AspNetCore.Configuration;
 using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
 using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using MineDev.MineTrack.Platform.Rental.Application.CommandServices;
+using MineDev.MineTrack.Platform.Rental.Application.Internal.CommandServices;
+using MineDev.MineTrack.Platform.Rental.Application.Internal.QueryServices;
+using MineDev.MineTrack.Platform.Rental.Application.QueryServices;
+using MineDev.MineTrack.Platform.Rental.Domain.Repositories;
+using MineDev.MineTrack.Platform.Rental.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,9 +62,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // builder.Services.AddScoped<IUserRepository, UserRepository>();
 // builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 
-// Rentals Bounded Context Injection (uncomment when ready)
-// builder.Services.AddScoped<IRentalRequestRepository, RentalRequestRepository>();
-// builder.Services.AddScoped<IRentalRequestCommandService, RentalRequestCommandService>();
+// Rentals Bounded Context Injection
+builder.Services.AddScoped<IRentalRequestRepository, RentalRequestRepository>();
+builder.Services.AddScoped<IRentalRequestCommandService, RentalRequestCommandService>();
+builder.Services.AddScoped<IRentalRequestQueryService, RentalRequestQueryService>();
 
 var app = builder.Build();
 
