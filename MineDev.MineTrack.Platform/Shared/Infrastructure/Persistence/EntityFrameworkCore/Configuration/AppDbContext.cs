@@ -1,5 +1,6 @@
 using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
+using MineDev.MineTrack.Platform.Rental.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
@@ -31,11 +32,16 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     /// </param>
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        
         base.OnModelCreating(builder);
 
         // Add builder.ApplyPublishingConfiguration for our bounded contexts
+        
+        // Rental Bounded Context
+        builder.ApplyRentalRequestConfiguration();
 
         // General Naming Convention for the database objects
         builder.UseSnakeCaseNamingConvention();
+        
     }
 }
