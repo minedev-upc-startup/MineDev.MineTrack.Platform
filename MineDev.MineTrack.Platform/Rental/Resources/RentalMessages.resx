@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+    <resheader name="version"><value>2.0</value></resheader>
+    <resheader name="reader"><value>System.Resources.ResXResourceReader</value></resheader>
+    <resheader name="writer"><value>System.Resources.ResXResourceWriter</value></resheader>
+    <data name="RentalRequestCreated" xml:space="preserve"><value>Rental request created successfully.</value></data>
+    <data name="RentalRequestApproved" xml:space="preserve"><value>Rental request approved successfully.</value></data>
+    <data name="RentalRequestRejected" xml:space="preserve"><value>Rental request rejected successfully.</value></data>
+    <data name="RentalRequestNotFound" xml:space="preserve"><value>Rental request not found.</value></data>
+</root>
