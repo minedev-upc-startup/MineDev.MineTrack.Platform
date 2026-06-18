@@ -14,8 +14,16 @@ public static class ModelBuilderExtensions
             entity.Property(r => r.MachineId).IsRequired();
             entity.Property(r => r.ClientId).IsRequired();
             entity.Property(r => r.OwnerId).IsRequired();
-            entity.Property(r => r.StartDate).IsRequired();
-            entity.Property(r => r.EndDate).IsRequired();
+            entity.Property(r => r.StartDate)
+                .IsRequired()
+                .HasConversion(
+                    v => v.ToDateTime(TimeOnly.MinValue),
+                    v => DateOnly.FromDateTime(v));
+            entity.Property(r => r.EndDate)
+                .IsRequired()
+                .HasConversion(
+                    v => v.ToDateTime(TimeOnly.MinValue),
+                    v => DateOnly.FromDateTime(v));
             entity.Property(r => r.Status)
                 .HasConversion(
                     v => v.ToString(),
