@@ -31,9 +31,7 @@ public class RentalRequestCommandService(
             return Result<RentalRequest>.Failure(
                 UpdateRentalRequestError.RentalRequestNotFound,
                 "Rental request not found.");
-
         rentalRequest.Approve(command);
-        unitOfWork.CompleteAsync(cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
         return Result<RentalRequest>.Success(rentalRequest);
     }
@@ -47,7 +45,6 @@ public class RentalRequestCommandService(
             return Result<RentalRequest>.Failure(
                 UpdateRentalRequestError.RentalRequestNotFound,
                 "Rental request not found.");
-
         rentalRequest.Reject(command);
         await unitOfWork.CompleteAsync(cancellationToken);
         return Result<RentalRequest>.Success(rentalRequest);
