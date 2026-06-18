@@ -12,13 +12,13 @@ namespace MineDev.MineTrack.Platform.Rental.Interfaces.Rest;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces("application/json")]
-[SwaggerTag("Rental Requests Management")]
-public class RentalRequestsController(
+[SwaggerTag("Rentals Management")]
+public class RentalsController(
     IRentalRequestCommandService rentalRequestCommandService,
     IRentalRequestQueryService rentalRequestQueryService) : ControllerBase
 {
     [HttpPost]
-    [SwaggerOperation("Create Rental Request", "Creates a new rental request.")]
+    [SwaggerOperation("Create Rental", "Creates a new rental request.")]
     [SwaggerResponse(201, "Rental request created successfully.")]
     [SwaggerResponse(400, "Bad request.")]
     public async Task<IActionResult> CreateRentalRequest(
@@ -30,14 +30,14 @@ public class RentalRequestsController(
         if (result.IsFailure)
             return RentalRequestsActionResultAssembler.ToActionResultFrom(result);
         var rentalRequestResource = RentalRequestResourceFromEntityAssembler.ToResourceFrom(result.Value!);
-        return CreatedAtAction(nameof(GetRentalRequestById),
+        return CreatedAtAction(nameof(GetRentalById),
             new { id = result.Value!.Id }, rentalRequestResource);
     }
 
     [HttpGet]
-    [SwaggerOperation("Get All Rental Requests", "Returns all rental requests.")]
+    [SwaggerOperation("Get All Rentals", "Returns all rental requests.")]
     [SwaggerResponse(200, "Rental requests retrieved successfully.")]
-    public async Task<IActionResult> GetAllRentalRequests(
+    public async Task<IActionResult> GetAllRentals(
         CancellationToken cancellationToken = default)
     {
         var query = new GetAllRentalRequestsQuery();
@@ -47,10 +47,10 @@ public class RentalRequestsController(
     }
 
     [HttpGet("{id:int}")]
-    [SwaggerOperation("Get Rental Request By Id", "Returns a rental request by id.")]
+    [SwaggerOperation("Get Rental By Id", "Returns a rental request by id.")]
     [SwaggerResponse(200, "Rental request retrieved successfully.")]
     [SwaggerResponse(404, "Rental request not found.")]
-    public async Task<IActionResult> GetRentalRequestById(
+    public async Task<IActionResult> GetRentalById(
         int id,
         CancellationToken cancellationToken = default)
     {
@@ -60,10 +60,10 @@ public class RentalRequestsController(
         return Ok(RentalRequestResourceFromEntityAssembler.ToResourceFrom(rentalRequest));
     }
 
-    [HttpGet("client/{clientId:int}")]
-    [SwaggerOperation("Get Rental Requests By Client", "Returns rental requests by client id.")]
+    [HttpGet("~/api/v1/clients/{clientId:int}/rentals")]
+    [SwaggerOperation("Get Rentals By Client", "Returns rental requests by client id.")]
     [SwaggerResponse(200, "Rental requests retrieved successfully.")]
-    public async Task<IActionResult> GetRentalRequestsByClientId(
+    public async Task<IActionResult> GetRentalsByClientId(
         int clientId,
         CancellationToken cancellationToken = default)
     {
@@ -73,10 +73,10 @@ public class RentalRequestsController(
         return Ok(resources);
     }
 
-    [HttpGet("owner/{ownerId:int}")]
-    [SwaggerOperation("Get Rental Requests By Owner", "Returns rental requests by owner id.")]
+    [HttpGet("~/api/v1/owners/{ownerId:int}/rentals")]
+    [SwaggerOperation("Get Rentals By Owner", "Returns rental requests by owner id.")]
     [SwaggerResponse(200, "Rental requests retrieved successfully.")]
-    public async Task<IActionResult> GetRentalRequestsByOwnerId(
+    public async Task<IActionResult> GetRentalsByOwnerId(
         int ownerId,
         CancellationToken cancellationToken = default)
     {
@@ -87,10 +87,10 @@ public class RentalRequestsController(
     }
 
     [HttpPatch("{id:int}/approve")]
-    [SwaggerOperation("Approve Rental Request", "Approves a rental request.")]
+    [SwaggerOperation("Approve Rental", "Approves a rental request.")]
     [SwaggerResponse(200, "Rental request approved successfully.")]
     [SwaggerResponse(404, "Rental request not found.")]
-    public async Task<IActionResult> ApproveRentalRequest(
+    public async Task<IActionResult> ApproveRental(
         int id,
         CancellationToken cancellationToken = default)
     {
@@ -102,10 +102,10 @@ public class RentalRequestsController(
     }
 
     [HttpPatch("{id:int}/reject")]
-    [SwaggerOperation("Reject Rental Request", "Rejects a rental request.")]
+    [SwaggerOperation("Reject Rental", "Rejects a rental request.")]
     [SwaggerResponse(200, "Rental request rejected successfully.")]
     [SwaggerResponse(404, "Rental request not found.")]
-    public async Task<IActionResult> RejectRentalRequest(
+    public async Task<IActionResult> RejectRental(
         int id,
         [FromBody] RejectRentalRequestCommand command,
         CancellationToken cancellationToken = default)

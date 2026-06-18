@@ -67,6 +67,20 @@ builder.Services.AddScoped<IRentalRequestRepository, RentalRequestRepository>();
 builder.Services.AddScoped<IRentalRequestCommandService, RentalRequestCommandService>();
 builder.Services.AddScoped<IRentalRequestQueryService, RentalRequestQueryService>();
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost:5173",
+                "https://minetrack-upc-2026.web.app"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Apply pending EF Core migrations on startup
@@ -92,6 +106,7 @@ var localizationOptions = new RequestLocalizationOptions()
 app.UseRequestLocalization(localizationOptions);
 
 app.UseHttpsRedirection();
+app.UseCors("FrontendPolicy");
 app.UseAuthorization();
 app.MapControllers();
 
