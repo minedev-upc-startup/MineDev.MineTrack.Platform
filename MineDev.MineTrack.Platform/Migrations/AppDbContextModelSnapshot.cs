@@ -19,6 +19,150 @@ namespace MineDev.MineTrack.Platform.Migrations
                 .HasAnnotation("ProductVersion", "10.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("MineDev.MineTrack.Platform.Iam.Domain.Model.Aggregates.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Company")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("company");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("full_name");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("password_hash");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("phone");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("role");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("updated_at");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("username");
+
+                    b.HasKey("Id")
+                        .HasName("p_k_users");
+
+                    b.ToTable("users");
+                });
+
+            modelBuilder.Entity("MineDev.MineTrack.Platform.Machinery.Domain.Model.Aggregates.Machine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)")
+                        .HasColumnName("brand");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("created_at");
+
+                    b.Property<double?>("CurrentLat")
+                        .HasColumnType("double")
+                        .HasColumnName("current_lat");
+
+                    b.Property<double?>("CurrentLng")
+                        .HasColumnType("double")
+                        .HasColumnName("current_lng");
+
+                    b.Property<int?>("DailyMinimumHours")
+                        .HasColumnType("int")
+                        .HasColumnName("daily_minimum_hours");
+
+                    b.Property<decimal>("HourlyRate")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("hourly_rate");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)")
+                        .HasColumnName("model");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int")
+                        .HasColumnName("owner_id");
+
+                    b.Property<string>("Photos")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("photos");
+
+                    b.Property<string>("Specs")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("specs");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)")
+                        .HasDefaultValue("Available")
+                        .HasColumnName("status");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)")
+                        .HasColumnName("type");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int?>("Year")
+                        .HasColumnType("int")
+                        .HasColumnName("year");
+
+                    b.HasKey("Id")
+                        .HasName("p_k_machines");
+
+                    b.ToTable("machines");
+                });
+
             modelBuilder.Entity("MineDev.MineTrack.Platform.Rental.Domain.Model.Aggregates.RentalRequest", b =>
                 {
                     b.Property<int>("Id")
@@ -34,8 +178,8 @@ namespace MineDev.MineTrack.Platform.Migrations
                         .HasColumnType("datetime")
                         .HasColumnName("created_at");
 
-                    b.Property<DateOnly>("EndDate")
-                        .HasColumnType("date")
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("end_date");
 
                     b.Property<decimal>("EstimatedTotalCost")
@@ -59,8 +203,8 @@ namespace MineDev.MineTrack.Platform.Migrations
                         .HasColumnType("datetime(6)")
                         .HasColumnName("resolved_at");
 
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("date")
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("start_date");
 
                     b.Property<string>("Status")

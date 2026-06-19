@@ -2,6 +2,8 @@ using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFramewo
 using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
 using MineDev.MineTrack.Platform.Rental.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
+using MineDev.MineTrack.Platform.Iam.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+using MineDev.MineTrack.Platform.Machinery.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 
 namespace MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
 
@@ -39,6 +41,12 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         
         // Rental Bounded Context
         builder.ApplyRentalRequestConfiguration();
+        
+        // IAM Bounded Context
+        builder.ApplyIamConfiguration();
+
+        // Machinery Bounded Context
+        builder.ApplyMachineConfiguration();
 
         // General Naming Convention for the database objects
         builder.UseSnakeCaseNamingConvention();
