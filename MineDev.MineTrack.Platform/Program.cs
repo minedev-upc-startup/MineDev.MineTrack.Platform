@@ -17,6 +17,12 @@ using MineDev.MineTrack.Platform.Rental.Application.Internal.QueryServices;
 using MineDev.MineTrack.Platform.Rental.Application.QueryServices;
 using MineDev.MineTrack.Platform.Rental.Domain.Repositories;
 using MineDev.MineTrack.Platform.Rental.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using MineDev.MineTrack.Platform.Machinery.Application.CommandServices;
+using MineDev.MineTrack.Platform.Machinery.Application.Internal.CommandServices;
+using MineDev.MineTrack.Platform.Machinery.Application.Internal.QueryServices;
+using MineDev.MineTrack.Platform.Machinery.Application.QueryServices;
+using MineDev.MineTrack.Platform.Machinery.Domain.Repositories;
+using MineDev.MineTrack.Platform.Machinery.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using MineDev.MineTrack.Platform.Shared.Interfaces.Rest.ProblemDetails;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -85,16 +91,21 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ProblemDetailsFactory>();
 
-// IAM Bounded Context Injection (uncomment when ready)
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserCommandService, UserCommandService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IHashingService, HashingService>();
+// IAM Bounded Context Injection 
+//builder.Services.AddScoped<IUserRepository, UserRepository>();
+//builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+//builder.Services.AddScoped<ITokenService, TokenService>();
+//builder.Services.AddScoped<IHashingService, HashingService>();
 
 // Rentals Bounded Context Injection
 builder.Services.AddScoped<IRentalRequestRepository, RentalRequestRepository>();
 builder.Services.AddScoped<IRentalRequestCommandService, RentalRequestCommandService>();
 builder.Services.AddScoped<IRentalRequestQueryService, RentalRequestQueryService>();
+
+// Machinery Bounded Context Injection
+builder.Services.AddScoped<IMachineRepository, MachineRepository>();
+builder.Services.AddScoped<IMachineCommandService, MachineCommandService>();
+builder.Services.AddScoped<IMachineQueryService, MachineQueryService>();
 
 // CORS
 builder.Services.AddCors(options =>
