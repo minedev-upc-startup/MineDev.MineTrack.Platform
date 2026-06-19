@@ -1,4 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using MineDev.MineTrack.Platform.Iam.Application.CommandServices;
+using MineDev.MineTrack.Platform.Iam.Application.Internal.CommandServices;
+using MineDev.MineTrack.Platform.Iam.Application.Internal.OutboundServices;
+using MineDev.MineTrack.Platform.Iam.Domain.Repositories;
+using MineDev.MineTrack.Platform.Iam.Infrastructure.Hashing.BCrypt.Services;
+using MineDev.MineTrack.Platform.Iam.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using MineDev.MineTrack.Platform.Iam.Infrastructure.Tokens.Jwt.Configuration;
+using MineDev.MineTrack.Platform.Iam.Infrastructure.Tokens.Jwt.Services;
 using MineDev.MineTrack.Platform.Shared.Domain.Repositories;
 using MineDev.MineTrack.Platform.Shared.Infrastructure.Interfaces.AspNetCore.Configuration;
 using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
@@ -9,19 +17,37 @@ using MineDev.MineTrack.Platform.Rental.Application.Internal.QueryServices;
 using MineDev.MineTrack.Platform.Rental.Application.QueryServices;
 using MineDev.MineTrack.Platform.Rental.Domain.Repositories;
 using MineDev.MineTrack.Platform.Rental.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using MineDev.MineTrack.Platform.Shared.Interfaces.Rest.ProblemDetails;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//  Configure JWT
+builder.Services.Configure<TokenSettings>(
+    builder.Configuration.GetSection("TokenSettings")
+);
 
 // Configure Lower Case URLs
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 // Localization Configuration
 builder.Services.AddLocalization();
-
+    
 // Configure Kebab Case Route Naming Convention
 builder.Services.AddControllers(options =>
     options.Conventions.Add(new KebabCaseRouteNamingConvention()))
     .AddDataAnnotationsLocalization();
+
+// Add CORS Policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy
+            .WithOrigins("*")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 // Register RFC 7807 ProblemDetails
 builder.Services.AddProblemDetails();
@@ -57,10 +83,13 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 
 // Shared Bounded Context Injection
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ProblemDetailsFactory>();
 
 // IAM Bounded Context Injection (uncomment when ready)
-// builder.Services.AddScoped<IUserRepository, UserRepository>();
-// builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
 
 // Rentals Bounded Context Injection
 builder.Services.AddScoped<IRentalRequestRepository, RentalRequestRepository>();
@@ -105,6 +134,7 @@ var localizationOptions = new RequestLocalizationOptions()
     .AddSupportedUICultures(supportedCultures);
 app.UseRequestLocalization(localizationOptions);
 
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseCors("FrontendPolicy");
 app.UseAuthorization();
