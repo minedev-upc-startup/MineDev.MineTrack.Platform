@@ -7,7 +7,7 @@ namespace MineDev.MineTrack.Platform.Iam.Application.Internal.QueryServices;
 
 public class UserQueryService(IUserRepository userRepository) : IUserQueryService
 {
-    public async Task<User?> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
+    public async Task<User?> Handle(GetEmailByIdQuery query, CancellationToken cancellationToken)
     {
         return await userRepository.FindByIdAsync(query.Id, cancellationToken);
     }
@@ -17,8 +17,8 @@ public class UserQueryService(IUserRepository userRepository) : IUserQueryServic
         return await userRepository.ListAsync(cancellationToken);
     }
 
-    public async Task<User?> Handle(GetUserByUsernameQuery query, CancellationToken cancellationToken)
+    public async Task<User?> Handle(GetUserByEmailQuery query, CancellationToken cancellationToken)
     {
-        return await userRepository.FindByUsernameAsync(query.Username, cancellationToken);
+        return await userRepository.FindByEmailAsync(query.Email, cancellationToken);
     }
 }

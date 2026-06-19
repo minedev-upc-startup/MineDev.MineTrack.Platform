@@ -8,13 +8,13 @@ namespace MineDev.MineTrack.Platform.Iam.Infrastructure.Persistence.EntityFramew
 
 public class UserRepository(AppDbContext context) : BaseRepository<User>(context), IUserRepository
 {
-    public async Task<User?> FindByUsernameAsync(string username, CancellationToken cancellationToken)
+    public async Task<User?> FindByEmailAsync(string email, CancellationToken cancellationToken)
     {
-        return await Context.Set<User>().FirstOrDefaultAsync(user => user.Username.Equals(username), cancellationToken);
+        return await Context.Set<User>().FirstOrDefaultAsync(user => user.Email.Equals(email), cancellationToken);
     }
 
-    public async Task<bool> ExistsByUsernameAsync(string username, CancellationToken cancellationToken)
+    public async Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken)
     {
-        return await Context.Set<User>().AnyAsync(user => user.Username.Equals(username), cancellationToken);
+        return await Context.Set<User>().AnyAsync(user => user.Email.Equals(email), cancellationToken);
     }
 }

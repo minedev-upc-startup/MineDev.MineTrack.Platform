@@ -33,7 +33,7 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
 
         if (userId == null) throw new Exception("Invalid token");
 
-        var getUserByIdQuery = new GetUserByIdQuery(userId.Value);
+        var getUserByIdQuery = new GetEmailByIdQuery(userId.Value);
 
         var user = await userQueryService.Handle(getUserByIdQuery, cancellationToken);
         

@@ -9,6 +9,6 @@ public static class UserResourceFromEntityAssembler
     {
         if (user == null) throw new ArgumentNullException(nameof(user), "User aggregate cannot be null when converting to resource.");
         
-        return new UserResource(user.Id, user.Username);
+        return new UserResource(user.Id, user.Username, user.Email);
     }
 }

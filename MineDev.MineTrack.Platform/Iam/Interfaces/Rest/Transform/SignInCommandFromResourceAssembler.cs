@@ -9,6 +9,6 @@ public static class SignInCommandFromResourceAssembler
     {
         if (resource == null) throw new ArgumentNullException(nameof(resource), "SignInResource cannot be null when converting to command.");
         
-        return new SignInCommand(resource.Username, resource.Password);
+        return new SignInCommand(resource.Email, resource.Password);
     }
 }

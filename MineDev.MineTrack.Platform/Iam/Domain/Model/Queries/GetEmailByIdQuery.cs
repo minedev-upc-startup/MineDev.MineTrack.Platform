@@ -1,3 +1,3 @@
 namespace MineDev.MineTrack.Platform.Iam.Domain.Model.Queries;
 
-public record GetUserByIdQuery(int Id);
+public record GetEmailByIdQuery(int Id);

@@ -10,6 +10,11 @@ public static class ModelBuilderExtensions
         builder.Entity<User>().HasKey(u => u.Id);
         builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<User>().Property(u => u.Username).IsRequired();
+        builder.Entity<User>().Property(u => u.Email).IsRequired();
+        builder.Entity<User>().Property(u => u.FullName).IsRequired();
+        builder.Entity<User>().Property(u => u.Phone).IsRequired();
+        builder.Entity<User>().Property(u => u.Company).IsRequired();
+        builder.Entity<User>().Property(u => u.Role).IsRequired();
         builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
     }
 }

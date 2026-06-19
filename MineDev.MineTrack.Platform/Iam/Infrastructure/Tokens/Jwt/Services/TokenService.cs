@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
@@ -22,22 +23,23 @@ public class TokenService(IOptions<TokenSettings> tokenSettings) : ITokenService
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.Sid, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Email, user.Email)
             }),
             Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
-        var tokenHandler = new JsonWebTokenHandler();
+        var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
 
-        return token;
+        return tokenHandler.WriteToken(token);
     }
 
     public async Task<int?> ValidateToken(string token)
     {
         if (string.IsNullOrEmpty(token)) return null;
 
-        var tokenHandler = new JsonWebTokenHandler();
+        var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_tokenSettings.Secret);
         try
         {

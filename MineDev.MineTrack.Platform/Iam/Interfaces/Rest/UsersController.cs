@@ -32,7 +32,7 @@ public class UsersController(
     [SwaggerResponse(StatusCodes.Status404NotFound, "The user was not found")]
     public async Task<IActionResult> GetUserById(int id, CancellationToken cancellationToken)
     {
-        var getUserByIdQuery = new GetUserByIdQuery(id);
+        var getUserByIdQuery = new GetEmailByIdQuery(id);
         var user = await userQueryService.Handle(getUserByIdQuery, cancellationToken);
 
         return IamActionResultAssembler.ToActionResultFromGetUserByIdResult(
