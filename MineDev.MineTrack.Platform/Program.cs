@@ -92,10 +92,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ProblemDetailsFactory>();
 
 // IAM Bounded Context Injection 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserCommandService, UserCommandService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IHashingService, HashingService>();
+//builder.Services.AddScoped<IUserRepository, UserRepository>();
+//builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+//builder.Services.AddScoped<ITokenService, TokenService>();
+//builder.Services.AddScoped<IHashingService, HashingService>();
 
 // Rentals Bounded Context Injection
 builder.Services.AddScoped<IRentalRequestRepository, RentalRequestRepository>();
