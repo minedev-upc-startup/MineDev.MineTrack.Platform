@@ -1,3 +1,3 @@
 namespace MineDev.MineTrack.Platform.Iam.Interfaces.Rest.Resources;
 
-public record AuthenticatedUserResource(int Id, string Username, string Email, string Token);
+public record AuthenticatedUserResource(int Id, string Username, string Email, string Role, string Token);

@@ -11,8 +11,8 @@ using MineDev.MineTrack.Platform.Shared.Infrastructure.Persistence.EntityFramewo
 namespace MineDev.MineTrack.Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260619173541_AddMachineryBC")]
-    partial class AddMachineryBC
+    [Migration("20260628085754_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
