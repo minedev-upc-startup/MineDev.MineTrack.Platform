@@ -4,5 +4,6 @@ public enum ERentalRequestStatus
 {
     Pending,
     Approved,
-    Rejected
+    Rejected,
+    Completed
 }
