@@ -20,7 +20,7 @@ public class RentalRequestCommandService(
         await rentalRequestRepository.AddAsync(rentalRequest, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
         return Result<RentalRequest>.Success(rentalRequest);
-    }
+    }   
 
     public async Task<Result<RentalRequest>> Handle(
         ApproveRentalRequestCommand command,
@@ -31,7 +31,7 @@ public class RentalRequestCommandService(
             return Result<RentalRequest>.Failure(
                 UpdateRentalRequestError.RentalRequestNotFound,
                 "Rental request not found.");
-        rentalRequest.Approve(command);
+        rentalRequest.Approve();
         await unitOfWork.CompleteAsync(cancellationToken);
         return Result<RentalRequest>.Success(rentalRequest);
     }
@@ -45,7 +45,21 @@ public class RentalRequestCommandService(
             return Result<RentalRequest>.Failure(
                 UpdateRentalRequestError.RentalRequestNotFound,
                 "Rental request not found.");
-        rentalRequest.Reject(command);
+        rentalRequest.Reject(command.RejectionReason ?? string.Empty);
+        await unitOfWork.CompleteAsync(cancellationToken);
+        return Result<RentalRequest>.Success(rentalRequest);
+    }
+    
+    public async Task<Result<RentalRequest>> Handle(
+        CompleteRentalRequestCommand command,
+        CancellationToken cancellationToken = default)
+    {
+        var rentalRequest = await rentalRequestRepository.FindByIdAsync(command.RentalRequestId, cancellationToken);
+        if (rentalRequest is null)
+            return Result<RentalRequest>.Failure(
+                UpdateRentalRequestError.RentalRequestNotFound,
+                "Rental request not found.");
+        rentalRequest.Complete();
         await unitOfWork.CompleteAsync(cancellationToken);
         return Result<RentalRequest>.Success(rentalRequest);
     }

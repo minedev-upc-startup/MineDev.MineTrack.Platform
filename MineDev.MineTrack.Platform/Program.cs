@@ -27,9 +27,11 @@ using MineDev.MineTrack.Platform.Shared.Interfaces.Rest.ProblemDetails;
 using MineDev.MineTrack.Platform.Iam.Application.QueryServices;
 using MineDev.MineTrack.Platform.Iam.Application.Internal.QueryServices;
 using Microsoft.Extensions.Localization;
+using Microsoft.OpenApi;
 using MineDev.MineTrack.Platform.Iam.Infrastructure.Pipeline.Middleware.Extensions;
 using MineDev.MineTrack.Platform.Iam.Resources;
 using MineDev.MineTrack.Platform.Shared.Resources.Errors;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,7 +68,21 @@ builder.Services.AddProblemDetails();
 
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => options.EnableAnnotations());
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+        { [new OpenApiSecuritySchemeReference("Bearer", document)] = [] });
+    options.EnableAnnotations();
+});
 
 // Database Connection
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
@@ -146,7 +162,7 @@ using (var scope = app.Services.CreateScope())
 // Exception Handler
 app.UseExceptionHandler();
 
-// Swagger (enabled in all environments for academic purposes)
+// Swagger 
 app.UseSwagger();
 app.UseSwaggerUI();
 

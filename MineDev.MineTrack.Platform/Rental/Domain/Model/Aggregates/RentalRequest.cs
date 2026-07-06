@@ -50,4 +50,10 @@ public partial class RentalRequest : IAuditableEntity
         RejectionReason = rejectionReason;
         ResolvedAt = DateTime.UtcNow;
     }
+    
+    public void Complete()
+    {
+        Status = ERentalRequestStatus.Completed;
+        ResolvedAt = DateTime.UtcNow;
+    }
 }
