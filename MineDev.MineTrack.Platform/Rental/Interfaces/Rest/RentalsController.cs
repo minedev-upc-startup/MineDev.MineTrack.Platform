@@ -116,4 +116,19 @@ public class RentalsController(
             return RentalRequestsActionResultAssembler.ToActionResultFrom(result);
         return Ok(RentalRequestResourceFromEntityAssembler.ToResourceFrom(result.Value!));
     }
+    
+    [HttpPatch("{id:int}/complete")]
+    [SwaggerOperation("Complete Rental", "Marks a rental request as completed.")]
+    [SwaggerResponse(200, "Rental request completed successfully.")]
+    [SwaggerResponse(404, "Rental request not found.")]
+    public async Task<IActionResult> CompleteRental(
+        int id,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new CompleteRentalRequestCommand(id);
+        var result = await rentalRequestCommandService.Handle(command, cancellationToken);
+        if (result.IsFailure)
+            return RentalRequestsActionResultAssembler.ToActionResultFrom(result);
+        return Ok(RentalRequestResourceFromEntityAssembler.ToResourceFrom(result.Value!));
+    }
 }

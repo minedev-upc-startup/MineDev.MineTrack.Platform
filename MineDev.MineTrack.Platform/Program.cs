@@ -24,6 +24,14 @@ using MineDev.MineTrack.Platform.Machinery.Application.QueryServices;
 using MineDev.MineTrack.Platform.Machinery.Domain.Repositories;
 using MineDev.MineTrack.Platform.Machinery.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using MineDev.MineTrack.Platform.Shared.Interfaces.Rest.ProblemDetails;
+using MineDev.MineTrack.Platform.Iam.Application.QueryServices;
+using MineDev.MineTrack.Platform.Iam.Application.Internal.QueryServices;
+using Microsoft.Extensions.Localization;
+using Microsoft.OpenApi;
+using MineDev.MineTrack.Platform.Iam.Infrastructure.Pipeline.Middleware.Extensions;
+using MineDev.MineTrack.Platform.Iam.Resources;
+using MineDev.MineTrack.Platform.Shared.Resources.Errors;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,7 +68,21 @@ builder.Services.AddProblemDetails();
 
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => options.EnableAnnotations());
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+        { [new OpenApiSecuritySchemeReference("Bearer", document)] = [] });
+    options.EnableAnnotations();
+});
 
 // Database Connection
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
@@ -92,10 +114,17 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ProblemDetailsFactory>();
 
 // IAM Bounded Context Injection 
-//builder.Services.AddScoped<IUserRepository, UserRepository>();
-//builder.Services.AddScoped<IUserCommandService, UserCommandService>();
-//builder.Services.AddScoped<ITokenService, TokenService>();
-//builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+
+builder.Services.AddSingleton<IStringLocalizer<ErrorMessages>, 
+    StringLocalizer<ErrorMessages>>();
+builder.Services.AddSingleton<IStringLocalizer<IamMessages>, 
+    StringLocalizer<IamMessages>>();
+builder.Services.AddSingleton<ProblemDetailsFactory>();
 
 // Rentals Bounded Context Injection
 builder.Services.AddScoped<IRentalRequestRepository, RentalRequestRepository>();
@@ -133,7 +162,7 @@ using (var scope = app.Services.CreateScope())
 // Exception Handler
 app.UseExceptionHandler();
 
-// Swagger (enabled in all environments for academic purposes)
+// Swagger 
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -148,6 +177,7 @@ app.UseRequestLocalization(localizationOptions);
 app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseCors("FrontendPolicy");
+app.UseRequestAuthorization();
 app.UseAuthorization();
 app.MapControllers();
 

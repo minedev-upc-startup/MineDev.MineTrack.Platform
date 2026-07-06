@@ -36,7 +36,8 @@ public class UserCommandService(
 
     public async Task<Result> Handle(SignUpCommand command, CancellationToken cancellationToken)
     {
-        if (await userRepository.ExistsByEmailAsync(command.Username, cancellationToken))
+        
+        if (await userRepository.ExistsByEmailAsync(command.Email, cancellationToken))
             return Result.Failure(IamError.UsernameAlreadyTaken, _localizer[nameof(IamError.UsernameAlreadyTaken), command.Username]);
 
         var hashedPassword = hashingService.HashPassword(command.Password);

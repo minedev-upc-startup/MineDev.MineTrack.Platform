@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
@@ -27,23 +26,22 @@ public class TokenService(IOptions<TokenSettings> tokenSettings) : ITokenService
                 new Claim(ClaimTypes.Email, user.Email)
             }),
             Expires = DateTime.UtcNow.AddDays(7),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            SigningCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
         };
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-
-        return tokenHandler.WriteToken(token);
+        var tokenHandler = new JsonWebTokenHandler();
+        return tokenHandler.CreateToken(tokenDescriptor);
     }
 
     public async Task<int?> ValidateToken(string token)
     {
         if (string.IsNullOrEmpty(token)) return null;
-
-        var tokenHandler = new JwtSecurityTokenHandler();
+        var tokenHandler = new JsonWebTokenHandler();
         var key = Encoding.ASCII.GetBytes(_tokenSettings.Secret);
         try
         {
-            var tokenValidationResult = await tokenHandler.ValidateTokenAsync(token, new TokenValidationParameters
+            var result = await tokenHandler.ValidateTokenAsync(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -51,9 +49,9 @@ public class TokenService(IOptions<TokenSettings> tokenSettings) : ITokenService
                 ValidateAudience = false,
                 ClockSkew = TimeSpan.Zero
             });
-
-            var jwtToken = (JsonWebToken)tokenValidationResult.SecurityToken;
-            var userId = int.Parse(jwtToken.Claims.First(claim => claim.Type == ClaimTypes.Sid).Value);
+            var jwtToken = (JsonWebToken)result.SecurityToken;
+            var userId = int.Parse(jwtToken.Claims
+                .First(c => c.Type == ClaimTypes.Sid).Value);
             return userId;
         }
         catch (Exception e)

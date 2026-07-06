@@ -7,9 +7,11 @@ namespace MineDev.MineTrack.Platform.Iam.Infrastructure.Pipeline.Middleware.Comp
 
 public class RequestAuthorizationMiddleware(RequestDelegate next)
 {
-    public async Task InvokeAsync(HttpContext context, IUserQueryService userQueryService, ITokenService tokenService, CancellationToken cancellationToken)
+    
+    public async Task InvokeAsync(HttpContext context, IUserQueryService userQueryService, ITokenService tokenService)
     {
         Console.WriteLine("Entering InvokeAsync");
+        var cancellationToken = context.RequestAborted;
 
         var allowAnonymous = context.Request.HttpContext.GetEndpoint()!.Metadata.Any(m => m.GetType() == typeof(AllowAnonymousAttribute));
         
