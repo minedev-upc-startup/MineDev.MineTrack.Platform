@@ -9,4 +9,6 @@ public interface IRentalRequestCommandService
     Task<Result<RentalRequest>> Handle(CreateRentalRequestCommand command, CancellationToken cancellationToken = default);
     Task<Result<RentalRequest>> Handle(ApproveRentalRequestCommand command, CancellationToken cancellationToken = default);
     Task<Result<RentalRequest>> Handle(RejectRentalRequestCommand command, CancellationToken cancellationToken = default);
+    
+    Task<Result<RentalRequest>> Handle(CompleteRentalRequestCommand command, CancellationToken cancellationToken = default);
 }
