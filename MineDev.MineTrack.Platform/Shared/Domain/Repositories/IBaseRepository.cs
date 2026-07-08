@@ -1,8 +1,4 @@
 namespace MineDev.MineTrack.Platform.Shared.Domain.Repositories;
-
-/// <summary>
-///     Base repository interface. All bounded context repositories extend this.
-/// </summary>
 public interface IBaseRepository<TEntity>
 {
     Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
